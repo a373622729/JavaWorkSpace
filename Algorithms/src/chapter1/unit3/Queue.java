@@ -1,6 +1,7 @@
 package chapter1.unit3;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class Queue<Item> implements Iterable<Item>{
@@ -26,8 +27,14 @@ class Queue<Item> implements Iterable<Item>{
         else           oldLast.next = last;
         N++;        
     }
+
+    public Item peek() {
+        if (isEmpty()) { throw new NoSuchElementException("Queue overflow"); }
+        return first.item;
+    }
     
     public Item dequeue() {
+        if (isEmpty()) { throw new NoSuchElementException("Queue overflow"); }
         Item item = first.item;
         first = first.next;
         if (isEmpty()) last = null;
@@ -42,7 +49,7 @@ class Queue<Item> implements Iterable<Item>{
     private class ListIterator implements Iterator<Item> {
         private Node current = first;
         public boolean hasNext() { return first != null; }
-        public void remove() { }
+        public void remove() { throw  new UnsupportedOperationException("Queue overflow"); }
         public Item next() {
             Item item = current.item;
             current = current.next;
