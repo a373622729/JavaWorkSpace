@@ -1,4 +1,4 @@
-package chapter1.linkList;
+package chapter1.unit3;
 
 import java.util.Iterator;
 import java.util.Scanner;
