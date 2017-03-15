@@ -5,12 +5,12 @@ package chapter1.unit5;
  * 路径压缩的quickUnionsuanf
  * 通过在find方法中加入一个循环,把根节点下面的子节点都添加到根节点下面来
  */
-public class PathCompressionQuickUnionUF {
+public class PathCompressionWeightedQuickUnionUF {
     private int[] id;
     private int[] sz;
     private int count;
 
-    public PathCompressionQuickUnionUF(int N) {
+    public PathCompressionWeightedQuickUnionUF(int N) {
         count = N;
         id = new int[N];
         sz = new int[N];
@@ -32,6 +32,7 @@ public class PathCompressionQuickUnionUF {
         int temp = p;
         while (p != id[p]) p = id[p];
         /*将这棵树的所有子节点压缩到同一级*/
+        //路径压缩
         int root = p;
         while (temp != root) {
             int nextp = id[temp];
@@ -45,6 +46,7 @@ public class PathCompressionQuickUnionUF {
         int pRoot = find(p);
         int qRoot = find(q);
         if (pRoot == qRoot) return;
+        //加权
         if (sz[pRoot] < sz[qRoot]) { id[pRoot] = qRoot; sz[qRoot] += sz[pRoot]; }
         else { id[qRoot] = pRoot; sz[pRoot] += sz[qRoot]; }
         count--;
