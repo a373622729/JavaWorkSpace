@@ -1,4 +1,4 @@
-package chapter2.unit2;
+package chapter2.unit3;
 
 import edu.princeton.cs.algs4.StdRandom;
 
