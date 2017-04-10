@@ -108,6 +108,7 @@
         <result column="items_num" property="itemsNum"/>
         <result column="orders_id" property="ordersId"/>
         <!--items商品信息-->
+
         <association property="item" javaType="com.mybatis.po.Item">
             <id column="items_id" property="id"/>
             <result column="items_detail" property="detail"/>
