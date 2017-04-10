@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace作用是对sql进行分类化管理,理解sql隔离
+注意:使用mapper代理开发,namespace有重要作用
+-->
+<mapper namespace="test">
+    <!--映射文件配置sql语句-->
+    <!--
+    id:标识映射文件的sql,称谓statment的id,将sql语句封装到mapped statment对象中
+    #{}:表示占位符
+    #{id}:id表示输入的参数,参数名称是id,输入参数是简单类型,参数明可以任意value或其他都行
+    -->
+    <select id="findUserById" parameterType="int" resultType="com.mybatis.po.User">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
+    <!--根据用户名称模糊查询用户信息
+    ${}表示拼接串,但是这样容易有 sql注入的隐患
+    ${value}接收传入参数内容,如果是简单类型,只能用value
+    -->
+    <select id="findUserByName" parameterType="java.lang.String" resultType="com.mybatis.po.User">
+        SELECT * FROM user WHERE username LIKE '%${value}%'
+    </select>
+
+    <!--添加用户-->
+    <!--
+    #{}中指定pojo属性明,mybatis通过OGNL获取对象的属性值
+    -->
+
+    <!--自增主键返回
+    mysql自增主键, 执行insert之前自动生成一个主键
+    通过mysql函数获得 LAST_INSERT_ID() 在insert之后调用该函数
+    -->
+    <insert id="insertUser" parameterType="com.mybatis.po.User">
+#         插入数据的主键返回到 传递进来的user对象中, 不用写id
+#         keyProperty: 把查询出来的结果放到哪个属性中
+#         order: 相对于select的执行顺序
+#         resultType: 指定结果类型
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT last_insert_id()
+        </selectKey>
+        INSERT INTO user(username, birthday, sex, address) VALUE (#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <!--非自增的主键用uuid
+    相对于select是之前执行的
+    oracle中的序列也这么用
+    -->
+    <insert id="insertUserReturnUUID" parameterType="com.mybatis.po.User">
+#         insert之前生成uuid设置到id中,再执行insert语句
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            SELECT uuid()
+        </selectKey>
+        INSERT INTO user(id, username, birthday, sex, address) VALUE (#{id},#{username},#{birthday},#{sex},#{address})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+
+    <!--根据id更新用户-->
+    <update id="updateUser" parameterType="com.mybatis.po.User">
+        UPDATE user SET username=#{username}, birthday=#{birthday}, sex=#{sex}, address=#{address} WHERE id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,17 @@
+mapper代理方法创建DAO
+1.需要编写mapper.xml配置文件
+2.根据开发规范,编写mapper接口,mybatis可以自动生成mapper接口实现代理对象
+规范:
+    1.mapper.xml中namespace等于mapper接口地址
+    2.mapper.java接口中的方法名和mapper.xml中的statment的id一致
+    3.mapper.java接口中的输入参数类型和mapper.xml中的parameterTyper类型一致
+    4.mapper.java接口中返回类型和mapper.xml中的resultType类型一致
+
+
+    代理对象内部调用selectOne selectList
+        如果mapper方法返回耽搁pojo,代理内部通过selectOne查询数据库
+        如果返回集合对象,通过selectList查询数据库
+
+    mapper接口方法技能有一个,是否影响系统开发?
+        系统框架汇总,dao层的代码是被业务层公用的.即使mapper接口只有一个参数,可以使用包装类型的pojo满足不同的业务方法需求
+    注意:dao持久层方法参数可以包装类型,map... service方法中减一不要使用包装类型

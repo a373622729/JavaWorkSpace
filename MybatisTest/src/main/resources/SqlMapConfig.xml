@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--
+mybatis 全局配置文件
+
+-->
+<configuration>
+    <!--加载properties文件
+    1.先加载<property>里面的属性
+    2.再加载<properties>中resource或url的属性
+    3.最终读取parameterType传递的属性,会覆盖重名属性
+    -->
+    <properties resource="db.properties">
+        <!--还可以配置一些属性名称和属性值,
+        建议不要在里面添加属性,定义在properties文件中,
+        并且定义的属性名称要有特殊性xxx.xxx.xxx-->
+    </properties>
+    <!--全局属性设置-->
+
+    <!--定义pojo的别名,在mapper.xml中就可以直接使用,而不用写全路径-->
+    <typeAliases>
+        <!--针对单个别名定义-->
+        <!--<typeAlias type="com.mybatis.po.User" alias="user"/>-->
+        <!--批量别名定义, 指定包名,自动扫码po类,别名就是类名,首字符大小写都行-->
+        <!--<package name="com.mybatis.po"/>-->
+    </typeAliases>
+
+    <!--类型处理器
+    mybatis通过typeHandlerswa完成jdbc类型和java类型的转换
+    通常它自带的处理器已经满足需要了
+    -->
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--加载映射文件
+
+    -->
+    <mappers>
+
+        <!--通过resource方法一次加载一个-->
+        <mapper resource="sqlmap/User.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/OrdersMapperCustom.xml"/>
+        <!--通过mapper接口加载映射文件-->
+        <!--遵循规范: 将mapper接口类名和mapper.xml映射文件名保持一致,且在一个目录
+        ,前提是使用mapper代理的方式实现dao
+        -->
+        <!--出错?? 测试的时候在Target中也要加入UserMapper.xml-->
+        <!--<mapper class="com.mybatis.mapper.UserMapper"/>-->
+        <!--批量加载
+        指定mapper的包名,自动扫描加载,同样要同名
+        -->
+        <!--<package name="com.mybatis.mapper"/>-->
+    </mappers>
+</configuration>
