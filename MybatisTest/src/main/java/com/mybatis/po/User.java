@@ -1,12 +1,14 @@
 package com.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ios on 17/4/6.
+ * 实现序列化接口,为了将缓存数据取出进行反序列化,因为二级缓存存储介质多种多样,不一定在内存中
  */
-public class User {
+public class User implements Serializable{
     private int    id;
     private String username;
     private String sex;

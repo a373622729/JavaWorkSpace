@@ -5,8 +5,8 @@
 注意:使用mapper代理开发,namespace有重要作用
 -->
 <mapper namespace="com.mybatis.mapper.UserMapper">
-
-
+    <!--开启这个mapper的com.mybatis.mapper.UserMapper下的二级缓存,对pojo类,实现序列化接口-->
+    <cache/>
     <!--定义sql片段-->
     <!--经验:
     基于单表定义,这样这个sql片段可重用性才高
@@ -32,7 +32,7 @@
                     id=#{user_id}
                 </foreach>
                 <!--<foreach collection="ids" item="user_id" open="AND id IN (" close=")" separator=", ">-->
-                    <!--#{user_id}-->
+                <!--#{user_id}-->
                 <!--</foreach>-->
             </if>
         </if>

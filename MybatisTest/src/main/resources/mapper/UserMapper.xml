@@ -5,7 +5,8 @@
 注意:使用mapper代理开发,namespace有重要作用
 -->
 <mapper namespace="com.mybatis.mapper.UserMapper">
-
+    <!--开启二级缓存,并将pojo实现序列化-->
+    <cache/>
 
     <!--定义sql片段-->
     <!--经验:
@@ -32,7 +33,7 @@
                     id=#{user_id}
                 </foreach>
                 <!--<foreach collection="ids" item="user_id" open="AND id IN (" close=")" separator=", ">-->
-                    <!--#{user_id}-->
+                <!--#{user_id}-->
                 <!--</foreach>-->
             </if>
         </if>
@@ -96,7 +97,7 @@
     #{}:表示占位符
     #{id}:id表示输入的参数,参数名称是id,输入参数是简单类型,参数明可以任意value或其他都行
     -->
-    <select id="findUserById" parameterType="int" resultType="com.mybatis.po.User">
+    <select id="findUserById" parameterType="int" resultType="com.mybatis.po.User" useCache="false"><!-- 针对每次查询都需要最新的数据sql,可以设置禁用缓存 -->
         SELECT *
         FROM user
         WHERE id =#{id}
@@ -121,7 +122,7 @@
     mysql自增主键, 执行insert之前自动生成一个主键
     通过mysql函数获得 LAST_INSERT_ID() 在insert之后调用该函数
     -->
-    <insert id="insertUser" parameterType="com.mybatis.po.User">
+    <insert id="insertUser" parameterType="com.mybatis.po.User" flushCache="true"> <!-- 刷新缓存,一般执行玩commit都需要刷新缓存-->
         # 插入数据的主键返回到 传递进来的user对象中, 不用写id
         # keyProperty: 把查询出来的结果放到哪个属性中
         # order: 相对于select的执行顺序

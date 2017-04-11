@@ -22,6 +22,8 @@ mybatis 全局配置文件
         <setting name="lazyLoadingEnabled" value="true"/>
         <!--关闭积极加载,只有当调用了getXXX()方法才会去加载sql-->
         <setting name="aggressiveLazyLoading" value="false"/>
+        <!--开启二级缓存,还要在mapper.xml中开启-->
+        <setting name="cacheEnabled" value="true"/>
     </settings>
     <!--定义pojo的别名,在mapper.xml中就可以直接使用,而不用写全路径-->
     <typeAliases>

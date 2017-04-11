@@ -114,4 +114,35 @@ public class OrdersMapperCustomTest {
         System.out.println(user2);
         sqlSession.close();
     }
+    //二级缓存测试,跨sqlSession的
+    @Test
+    public void testCache2() throws Exception {
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        SqlSession sqlSession3 = sqlSessionFactory.openSession();
+
+        UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
+        User user1 = userMapper1.findUserById(1);
+        System.out.println(user1);
+        /*user1.setAddress("西安市");
+        userMapper.updateUser(user1);
+        sqlSession1.commit();*/
+        //执行关闭操作,才将sqlSession中的数据写入到二级缓存区域
+        sqlSession1.close();
+
+        UserMapper userMapper3 = sqlSession3.getMapper(UserMapper.class);
+        User user = userMapper3.findUserById(1);
+        user.setUsername("张明明");
+        userMapper3.updateUser(user);
+        sqlSession3.commit();
+        sqlSession3.close();
+
+        //第一次发起请求
+        UserMapper userMapper2 = sqlSession2.getMapper(UserMapper.class);
+        User user2 = userMapper2.findUserById(1);
+        System.out.println(user2);
+        sqlSession2.close();
+
+    }
+
 }
