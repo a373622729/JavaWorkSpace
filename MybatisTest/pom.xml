@@ -18,6 +18,12 @@
     <description>This is the com.mybatis.test:com.mybatis.test plugin for Atlassian Bamboo.</description>
     <packaging>atlassian-plugin</packaging>
     <dependencies>
+        <!--ehcache-->
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0.3</version>
+        </dependency>
         <!-- mybatis核心包 -->
         <dependency>
             <groupId>org.mybatis</groupId>
