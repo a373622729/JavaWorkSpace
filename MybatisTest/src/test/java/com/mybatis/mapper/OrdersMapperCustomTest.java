@@ -16,11 +16,11 @@ import java.util.List;
 
 /**
  * Created by ios on 17/4/10.
- *
  */
 public class OrdersMapperCustomTest {
 
     private SqlSessionFactory sqlSessionFactory;
+
     @Before
     public void setUp() throws Exception {
         //mybatis配置文件
@@ -81,4 +81,20 @@ public class OrdersMapperCustomTest {
         sqlSession.close();
     }
 
+
+    @Test
+    public void testFindOrdersUserLazyLoading() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+        List<Orders>       list               = ordersMapperCustom.findOrdersUserLazyLoading();
+
+        for (Orders orders : list) {
+            //执行getUser()实现按需加载
+            User user = orders.getUser();
+            System.out.println(user);
+        }
+
+        sqlSession.close();
+    }
 }

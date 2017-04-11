@@ -17,7 +17,12 @@ mybatis 全局配置文件
         并且定义的属性名称要有特殊性xxx.xxx.xxx-->
     </properties>
     <!--全局属性设置-->
-
+    <settings>
+        <!--开启延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--关闭积极加载,只有当调用了getXXX()方法才会去加载sql-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
     <!--定义pojo的别名,在mapper.xml中就可以直接使用,而不用写全路径-->
     <typeAliases>
         <!--针对单个别名定义-->
