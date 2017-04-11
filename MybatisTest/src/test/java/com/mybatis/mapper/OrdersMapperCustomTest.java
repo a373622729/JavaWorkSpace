@@ -97,4 +97,21 @@ public class OrdersMapperCustomTest {
 
         sqlSession.close();
     }
+    //一级缓存测试
+    @Test
+    public void testCache1() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        //第一次发起请求
+
+        User user1 = userMapper.findUserById(1);
+        System.out.println(user1);
+        user1.setAddress("西安市");
+        userMapper.updateUser(user1);
+        sqlSession.commit();
+
+        User user2 = userMapper.findUserById(1);
+        System.out.println(user2);
+        sqlSession.close();
+    }
 }

@@ -25,6 +25,10 @@ public interface UserMapper {
     void insertUser(User user) throws Exception;
     //删除用户
     void deleteUser(int id) throws Exception;
+    //更新用户
+    void updateUser(User user) throws Exception;
+
     //根据用户名查询列表
     List<User> findUserByName(String name) throws Exception;
+
 }
