@@ -28,4 +28,20 @@
     <bean id="userDao" class="com.ssm.dao.UserDAOImpl">
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+
+    <!--mapper配置
+    MapperFactoryBean:根据mapper接口生成代理对象-->
+    <!--这样会很麻烦-->
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="com.ssm.mapper.UserMapper"/>
+    </bean>-->
+    <!--mapper批量扫码,从mapper包中扫描出mapper接口,自动创建代理对象,在spring容器中注册
+    自动扫描出来的mapper的bean的id为mapper类名,首字母小写
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定扫码的包名,如果扫码多个包,用逗号空格-->
+        <property name="basePackage" value="com.ssm.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
 </beans>
