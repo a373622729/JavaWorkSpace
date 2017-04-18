@@ -20,6 +20,14 @@ public class BinarySearch {
         }
         return -1;
     }
+    //递归实现
+    public static int rank(int key, int lo, int hi) {
+        if (hi < lo) return lo;
+        int mid = lo + (hi - lo) / 2;
+        if (key < mid) return rank(key, lo, mid - 1);
+        else if (key > mid) return rank(key, mid+1, hi);
+        else return key;
+    }
 
     public static void main(String[] args) {
         int[] whitelist = StdIn.readAllInts();
